@@ -1,7 +1,7 @@
 // 天気情報を取得するためのAPI
 // OpenWeatherMap APIを使用して実際の天気データを取得します
 
-export interface WeatherForecast {
+export type WeatherForecast = {
   date: string;
   weather: string;
   temperature: number;
@@ -9,17 +9,17 @@ export interface WeatherForecast {
   windSpeed: number;
   precipitation: number;
   icon: string;
-}
+};
 
-interface RacetrackWeekendForecast {
+type RacetrackWeekendForecast = {
   id: string;
   name: string;
   location: string;
   saturday: WeatherForecast;
   sunday: WeatherForecast;
-}
+};
 
-interface ForecastItem {
+type ForecastItem = {
   dt: number;
   weather: Array<{
     description: string;
@@ -33,7 +33,7 @@ interface ForecastItem {
     speed: number;
   };
   pop: number;
-}
+};
 
 // JRA競馬場のリスト
 const JRA_RACETRACKS = [
@@ -113,7 +113,7 @@ export async function getWeekendForecasts(): Promise<
   RacetrackWeekendForecast[]
 > {
   try {
-    const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+    const apiKey = process.env.OPENWEATHER_API_KEY;
 
     if (!apiKey) {
       console.error("OpenWeatherMap APIキーが設定されていません");
@@ -240,10 +240,10 @@ function getNextWeekendDate(isSaturday: boolean): string {
 function getFallbackForecast(date: string): WeatherForecast {
   return {
     date: date,
-    weather: "データなし",
-    temperature: 20,
-    humidity: 50,
-    windSpeed: 3,
+    weather: "データがありません",
+    temperature: 0,
+    humidity: 0,
+    windSpeed: 0,
     precipitation: 0,
     icon: "03d", // 曇りアイコン
   };
